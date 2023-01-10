@@ -18,7 +18,7 @@ export default function Home() {
             setShortUrl(result.data);
           })
           .catch((err) => {
-            console.log(err);
+            console.log("Error -> index.tsx -> post",err);
           });
       })
       .catch((err) => {
