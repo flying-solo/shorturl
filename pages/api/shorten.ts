@@ -1,6 +1,6 @@
 import clientPromise from "./mongodb";
 import { NextApiResponse, NextApiRequest } from "next";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import validateUrl from "./utils/urlValidate";
 
 export default async function handler(
@@ -11,7 +11,9 @@ export default async function handler(
   const db = client.db("URLDATA").collection("shortenUrl");
 
   const defaultUrl = req.body.url;
-  const urlId = nanoid();
+  const alphabett = "abcdefghijklmnopqrstuvwxyz";
+  const urlId = customAlphabet(alphabett, 6);
+  const random = urlId();
 
   if (validateUrl(defaultUrl)) {
     try {
@@ -19,9 +21,9 @@ export default async function handler(
       if (findUrl) {
         res.status(200).send(findUrl.shortUrl);
       } else {
-        const shortUrl = `${process.env.BASE}/${urlId}`;
+        const shortUrl = `${process.env.BASE}/${random}`;
         const urlObject = {
-          uid: urlId,
+          uid: random,
           defaultUrl,
           shortUrl,
         };
@@ -31,7 +33,6 @@ export default async function handler(
         }
       }
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   } else {

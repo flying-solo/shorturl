@@ -1,21 +1,28 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import { useState } from "react";
 import axios from "axios";
+import { urlValidate } from "../middleware/validate";
 
 export default function Home() {
   const [url, setUrl] = useState("");
+  const [urlError, setUrlError] = useState("");
   const [shortUrl, setShortUrl] = useState("short URL will appear here");
 
-  const handleSubmit = () => {
-    axios
-      .post("/api/shorten", { url })
-      .then((result) => {
-        console.log(result);
-        setShortUrl(result.data);
+  const handleSubmit = async () => {
+    await urlValidate
+      .validate({ url })
+      .then((res) => {
+        axios
+          .post("/api/shorten", { url })
+          .then((result) => {
+            setShortUrl(result.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
-        console.log(err);
+        setUrlError(err.errors[0]);
       });
   };
 
@@ -27,28 +34,42 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-screen flex flex-col justify-center items-center gap-2">
-        <div className="flex gap-4">
-          <input
-            type="text"
-            value={url}
-            placeholder="url"
-            className=" outline-2 border-2"
-            onChange={(e) => {
-              setUrl(e.target.value);
-            }}
-          />
-          <button
-            className=" bg-green-400 text-black p-2 rounded-md"
-            onClick={handleSubmit}
-          >
-            Shorten
-          </button>
-        </div>
-        <div className=" text-purple-800 bg-purple-300 p-2 rounded-md ">
-          <a href={shortUrl} target="_blank" rel="noreferrer">
-            {shortUrl}
-          </a>
+      <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
+        <div className="h-[90%] w-[80%] bg-[#ffffff10] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
+          <div className="font-bold text-[3.2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            Shorten Your Url
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-red-400">{urlError}</div>
+            <div className="flex gap-4">
+              <input
+                type="text"
+                value={url}
+                placeholder="Enter your Link"
+                className="outline-none px-5 py-2 bg-[#ffffffeb] rounded-full text-md shadow-sm placeholder-[#8f8f8f] w-[50vw] text-gray-700"
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  setUrlError("");
+                }}
+              />
+            </div>
+            <button
+              disabled={urlError !== ""}
+              className={`${
+                urlError !== ""
+                  ? "bg-red-500 hover:cursor-not-allowed opacity-70"
+                  : "bg-violet-800"
+              } text-white px-4 py-2 rounded-full font-semibold`}
+              onClick={handleSubmit}
+            >
+              Shorten
+            </button>
+          </div>
+          <div className="text-purple-800 bg-purple-200 px-4 py-2 rounded-xl hover:text-purple-900 hover:cursor-pointer ">
+            <a href={shortUrl} target="_blank" rel="noreferrer">
+              {shortUrl}
+            </a>
+          </div>
         </div>
       </main>
     </>
