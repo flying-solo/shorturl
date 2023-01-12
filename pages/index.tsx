@@ -1,12 +1,14 @@
 import Head from "next/head";
 import { useState } from "react";
 import axios from "axios";
+import { Player } from "@lottiefiles/react-lottie-player";
 import { urlValidate } from "../middleware/validate";
 
 export default function Home() {
   const [url, setUrl] = useState("");
-  const [urlError, setUrlError] = useState("");
-  const [shortUrl, setShortUrl] = useState("short URL will appear here");
+  const [urlError, setUrlError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("Shorten");
+  const [shortUrl, setShortUrl] = useState("");
 
   const handleSubmit = async () => {
     await urlValidate
@@ -18,11 +20,12 @@ export default function Home() {
             setShortUrl(result.data);
           })
           .catch((err) => {
-            console.log("Error -> index.tsx -> post",err);
+            console.log("Error -> index.tsx -> post", err);
           });
       })
       .catch((err) => {
-        setUrlError(err.errors[0]);
+        setErrorMsg(err.errors[0]);
+        setUrlError(true);
       });
   };
 
@@ -34,42 +37,40 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
-        <div className="h-[90%] w-[80%] bg-[#ffffff10] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
-          <div className="font-bold text-[3.2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-            Shorten Your Url
+      <main className="font-sophia h-screen flex flex-col justify-between py-12 items-center bg-[#121212]">
+        <div className="font-bold text-[3rem] text-transparent text-8xl bg-clip-text hover:cursor-crosshair bg-gray-300 hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+          Shorten Your Url
+        </div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex gap-4">
+            <input
+              type="text"
+              value={url}
+              placeholder="Enter your Link"
+              className={`text-gray-200 outline-none px-5 py-2 border-b-2 border-b-gray-300 bg-[#121212] text-lg shadow-sm placeholder-[#8f8f8f] w-[50vw]`}
+              onChange={(e) => {
+                setUrl(e.target.value);
+                setUrlError(false);
+                setErrorMsg("Shorten");
+              }}
+            />
           </div>
-          <div className="flex flex-col items-center gap-4">
-            <div className="text-red-400">{urlError}</div>
-            <div className="flex gap-4">
-              <input
-                type="text"
-                value={url}
-                placeholder="Enter your Link"
-                className="outline-none px-5 py-2 bg-[#ffffffeb] rounded-full text-md shadow-sm placeholder-[#8f8f8f] w-[50vw] text-gray-700"
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                  setUrlError("");
-                }}
-              />
-            </div>
-            <button
-              disabled={urlError !== ""}
-              className={`${
-                urlError !== ""
-                  ? "bg-red-500 hover:cursor-not-allowed opacity-70"
-                  : "bg-violet-800"
-              } text-white px-4 py-2 rounded-full font-semibold`}
-              onClick={handleSubmit}
-            >
-              Shorten
-            </button>
-          </div>
-          <div className="text-purple-800 bg-purple-200 px-4 py-2 rounded-xl hover:text-purple-900 hover:cursor-pointer ">
+          <button
+            disabled={urlError}
+            className={`${
+              urlError
+                ? "bg-red-600 hover:cursor-not-allowed opacity-70"
+                : " bg-amber-600"
+            } text-[#121212] text-lg px-5 py-[0.3rem] font-semibold mt-`}
+            onClick={handleSubmit}
+          >
+            {errorMsg}
+          </button>
+        </div>
+        <div className="text-blue-700 bg-[#121212] hover:text-purple-900 hover:cursor-pointer">
             <a href={shortUrl} target="_blank" rel="noreferrer">
               {shortUrl}
             </a>
-          </div>
         </div>
       </main>
     </>
