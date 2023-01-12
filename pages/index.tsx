@@ -13,10 +13,10 @@ export default function Home() {
     await urlValidate
       .validate({ url })
       .then((res) => {
+        setFetching(true);
         axios
           .post("/api/shorten", { url })
           .then((result) => {
-            setFetching(true);
             setShortUrl(result.data);
             setFetching(false);
           })
@@ -27,6 +27,7 @@ export default function Home() {
       })
       .catch((err) => {
         setUrlError(err.errors[0]);
+        setFetching(false);
       });
   };
 
@@ -39,7 +40,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
-        <div className="h-[90%] w-[80%] bg-[#ffffff10] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
+        <div className="h-[90%] w-[80%] bg-[#ffffff06] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
           <div className="font-bold text-[2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             Shorten Your Url
           </div>
@@ -50,7 +51,7 @@ export default function Home() {
                 type="text"
                 value={url}
                 placeholder="Enter your Link"
-                className="outline-none px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-md shadow-sm placeholder-[#8f8f8f] w-[50vw] text-gray-700"
+                className="text-white outline-none px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-md shadow-sm placeholder-[#c4c4c4] w-[50vw]"
                 onChange={(e) => {
                   setUrl(e.target.value);
                   setUrlError("");
@@ -69,7 +70,7 @@ export default function Home() {
               Shorten
             </button>
           </div>
-          <div className="text-purple-800 bg-purple-200 px-4 py-2 rounded-xl hover:text-purple-900 hover:cursor-pointer ">
+          <div className="text-yellow-500 bg-purple-200 px-4 py-2 rounded-xl hover:text-purple-900 hover:cursor-pointer ">
             <a href={shortUrl} target="_blank" rel="noreferrer">
               {fetching ? "The bits are breeding" : shortUrl}
             </a>
