@@ -7,6 +7,7 @@ export default function Home() {
   const [url, setUrl] = useState("");
   const [urlError, setUrlError] = useState("");
   const [shortUrl, setShortUrl] = useState("short URL will appear here");
+  const [fetching, setFetching] = useState(false);
 
   const handleSubmit = async () => {
     await urlValidate
@@ -15,10 +16,12 @@ export default function Home() {
         axios
           .post("/api/shorten", { url })
           .then((result) => {
+            setFetching(true);
             setShortUrl(result.data);
           })
           .catch((err) => {
-            console.log("Error -> index.tsx -> post",err);
+            console.log("Error -> index.tsx -> post", err);
+            setFetching(false);
           });
       })
       .catch((err) => {
@@ -67,7 +70,7 @@ export default function Home() {
           </div>
           <div className="text-purple-800 bg-purple-200 px-4 py-2 rounded-xl hover:text-purple-900 hover:cursor-pointer ">
             <a href={shortUrl} target="_blank" rel="noreferrer">
-              {shortUrl}
+              {fetching ? "The bits are breeding" : shortUrl}
             </a>
           </div>
         </div>
