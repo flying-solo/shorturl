@@ -18,6 +18,7 @@ export default function Home() {
           .then((result) => {
             setFetching(true);
             setShortUrl(result.data);
+            setFetching(false);
           })
           .catch((err) => {
             console.log("Error -> index.tsx -> post", err);
@@ -39,7 +40,7 @@ export default function Home() {
       </Head>
       <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
         <div className="h-[90%] w-[80%] bg-[#ffffff10] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
-          <div className="font-bold text-[3.2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+          <div className="font-bold text-[2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             Shorten Your Url
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -49,7 +50,7 @@ export default function Home() {
                 type="text"
                 value={url}
                 placeholder="Enter your Link"
-                className="outline-none px-5 py-2 bg-[#ffffffeb] rounded-full text-md shadow-sm placeholder-[#8f8f8f] w-[50vw] text-gray-700"
+                className="outline-none px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-md shadow-sm placeholder-[#8f8f8f] w-[50vw] text-gray-700"
                 onChange={(e) => {
                   setUrl(e.target.value);
                   setUrlError("");
@@ -62,7 +63,7 @@ export default function Home() {
                 urlError !== ""
                   ? "bg-red-500 hover:cursor-not-allowed opacity-70"
                   : "bg-violet-800"
-              } text-white px-4 py-2 rounded-full font-semibold`}
+              } text-white px-4 py-2 font-semibold`}
               onClick={handleSubmit}
             >
               Shorten
