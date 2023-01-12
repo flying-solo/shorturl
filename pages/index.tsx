@@ -70,7 +70,7 @@ export default function Home() {
               Shorten
             </button>
           </div>
-          <div className="bg-transparent px-4 py-2 text-pink-600 font-medium hover:text-purple-900 hover:cursor-pointer border-2 border-gray-600">
+          <div className="bg-transparent px-4 py-2 text-pink-600 font-medium hover:text-purple-500 hover:cursor-pointer border-2 border-gray-600">
             <a href={shortUrl} target="_blank" rel="noreferrer">
               {fetching ? "The bits are breeding" : shortUrl}
             </a>
