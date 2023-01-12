@@ -20,11 +20,6 @@ crafted with <span style="color: #8b0000;">&hearts;</span> by <a hrefs="https://
 
 <br>
 
-## Creators💥
-
-<p align="center">![Harshit Singh](https://github.com/flying-solo.png?size=128)
-<br>
-[Harshit Singh](https://github.com/flying-solo)</p> 
 
 [Harshit's twitter handle](https://twitter.com/singharshit07)
 <br>
