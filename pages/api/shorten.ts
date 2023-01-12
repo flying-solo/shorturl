@@ -30,6 +30,8 @@ export default async function handler(
         const insert = await db.insertOne(urlObject);
         if (insert.acknowledged) {
           res.send(shortUrl);
+        }else{
+          res.send("unable to shorten link");
         }
       }
     } catch (err) {
