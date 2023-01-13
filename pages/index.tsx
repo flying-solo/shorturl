@@ -40,8 +40,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
-        <div className="h-[90%] w-[80%] bg-[#ffffff06] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
-          <div className="font-bold text-[2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <div className="h-full md:h-[90%] w-full md:w-[80%] md:bg-[#ffffff06] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
+          <div className="font-bold text-[1.2rem] md:text-[1.5rem] lg:text-[2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             Shorten Your Url
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -51,7 +51,7 @@ export default function Home() {
                 type="text"
                 value={url}
                 placeholder="Enter your Link"
-                className="text-white outline-none px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-md shadow-sm placeholder-[#c4c4c4] w-[50vw]"
+                className="text-white outline-none px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-md shadow-sm placeholder-[#c4c4c4] w-[70vw] md:w-[50vw]"
                 onChange={(e) => {
                   setUrl(e.target.value);
                   setUrlError("");

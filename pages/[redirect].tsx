@@ -30,7 +30,7 @@ const Post = (props: { data: string }) => {
             src="https://assets8.lottiefiles.com/packages/lf20_ISCngv3FyB.json"
             style={{ height: "300px", width: "300px" }}
           />
-          <div className="font-semibold mt-5 text-transparent text-3xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+          <div className="font-semibold mt-5 text-transparent text-lg md:text-xl lg:text-3xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {props.data}
           </div>
         </div>
