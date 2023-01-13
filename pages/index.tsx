@@ -51,16 +51,16 @@ export default function Home() {
       </Head>
       <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
         <div className="h-full md:h-[90%] w-full md:w-[80%] flex flex-col items-start justify-start gap-12">
-          <div className="font-bold text-[1.2rem] md:text-[1.5rem] lg:text-[2rem] mt-[50px] text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+          <div className="font-bold text-[2rem] lg:text-[2.5rem] mt-[9rem] md:mt-[50px] text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-3 md:px-0">
             Shorten Your Url
           </div>
-          <div className="mt-[60px] flex items-center gap-5">
+          <div className="mt-[60px] flex flex-col items-start md:flex-row md:items-center gap-5 px-3">
             <div className="flex gap-4">
               <input
                 type="text"
                 value={url}
                 placeholder="Enter your Link"
-                className="text-white outline-none px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-md shadow-sm placeholder-[#c4c4c4] w-[70vw] md:w-[50vw]"
+                className="text-white outline-none md:px-5 py-2 bg-transparent border-b-2 border-b-gray-300 text-sm md:text-md shadow-sm placeholder-[#c4c4c4] w-[70vw] md:w-[50vw]"
                 onChange={(e) => {
                   setUrl(e.target.value);
                   setUrlError("");
@@ -73,16 +73,16 @@ export default function Home() {
                 urlError !== ""
                   ? "bg-red-500 hover:cursor-not-allowed opacity-70 border-2 border-gray-200"
                   : "border-2 border-gray-200"
-              } text-white px-5 py-2 font-semibold`}
+              } text-white px-3 md:px-5 py-2 font-semibold text-sm md:text-lg`}
               onClick={handleSubmit}
             >
               Shorten
             </button>
           </div>
           {/* <div className="text-red-400 text-xl font-semibold">{urlError}</div> */}
-          <div className="mt-[70px] bg-transparent py-2 text-pink-600 font-medium hover:cursor-pointer ">
+          <div className="mt-[70px] bg-transparent py-2 text-pink-600 font-medium hover:cursor-pointer px-3 md:px-0">
             <ToastContainer
-              position="top-center"
+              position="bottom-center"
               autoClose={5000}
               hideProgressBar={false}
               newestOnTop={false}
