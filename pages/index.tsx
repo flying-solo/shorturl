@@ -1,13 +1,21 @@
 import Head from "next/head";
 import { useState } from "react";
 import axios from "axios";
+import { IoIosCopy } from "react-icons/io";
+import { ProgressBar } from "react-loader-spinner";
 import { urlValidate } from "../middleware/validate";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [urlError, setUrlError] = useState("");
-  const [shortUrl, setShortUrl] = useState("short URL will appear here");
+  const [shortUrl, setShortUrl] = useState(undefined);
   const [fetching, setFetching] = useState(false);
+
+  const handleCopy = () => {
+    toast("✅ URL Copied !!");
+  };
 
   const handleSubmit = async () => {
     await urlValidate
@@ -19,6 +27,7 @@ export default function Home() {
           .then((result) => {
             setShortUrl(result.data);
             setFetching(false);
+            setUrl("");
           })
           .catch((err) => {
             console.log("Error -> index.tsx -> post", err);
@@ -26,6 +35,7 @@ export default function Home() {
           });
       })
       .catch((err) => {
+        toast.error(err.errors[0]);
         setUrlError(err.errors[0]);
         setFetching(false);
       });
@@ -40,12 +50,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-screen flex flex-col justify-end items-center backgroundGradient">
-        <div className="h-full md:h-[90%] w-full md:w-[80%] md:bg-[#ffffff06] rounded-t-3xl backdrop-blur-[2rem] flex flex-col items-center justify-evenly">
-          <div className="font-bold text-[1.2rem] md:text-[1.5rem] lg:text-[2rem] mt-5 text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <div className="h-full md:h-[90%] w-full md:w-[80%] flex flex-col items-start justify-start gap-12">
+          <div className="font-bold text-[1.2rem] md:text-[1.5rem] lg:text-[2rem] mt-[50px] text-transparent text-8xl bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             Shorten Your Url
           </div>
-          <div className="flex flex-col items-center gap-4">
-            <div className="text-red-400">{urlError}</div>
+          <div className="mt-[60px] flex items-center gap-5">
             <div className="flex gap-4">
               <input
                 type="text"
@@ -62,18 +71,51 @@ export default function Home() {
               disabled={urlError !== ""}
               className={`${
                 urlError !== ""
-                  ? "bg-red-500 hover:cursor-not-allowed opacity-70"
-                  : "bg-violet-800"
-              } text-white px-4 py-2 font-semibold`}
+                  ? "bg-red-500 hover:cursor-not-allowed opacity-70 border-2 border-gray-200"
+                  : "border-2 border-gray-200"
+              } text-white px-5 py-2 font-semibold`}
               onClick={handleSubmit}
             >
               Shorten
             </button>
           </div>
-          <div className="bg-transparent px-4 py-2 text-pink-600 font-medium hover:text-purple-500 hover:cursor-pointer border-2 border-gray-600">
-            <a href={shortUrl} target="_blank" rel="noreferrer">
-              {fetching ? "The bits are breeding" : shortUrl}
-            </a>
+          {/* <div className="text-red-400 text-xl font-semibold">{urlError}</div> */}
+          <div className="mt-[70px] bg-transparent py-2 text-pink-600 font-medium hover:cursor-pointer ">
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
+            {fetching ? (
+              <ProgressBar
+                height="80"
+                width="80"
+                ariaLabel="progress-bar-loading"
+                wrapperStyle={{}}
+                wrapperClass="progress-bar-wrapper"
+                borderColor="#d1d5db"
+                barColor="#bf2674"
+              />
+            ) : shortUrl ? (
+              <div
+                className="flex gap-4 items-center text-lg"
+                onClick={() => {
+                  navigator.clipboard.writeText(shortUrl);
+                  handleCopy();
+                }}
+              >
+                {shortUrl} <IoIosCopy className="text-pink-600" />
+              </div>
+            ) : (
+              <div className="text-lg font-bold">Short URL will appear here</div>
+            )}
           </div>
         </div>
       </main>
