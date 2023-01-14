@@ -1,43 +1,45 @@
-import clientPromise from "./mongodb";
+import clientPromise from "../../util/mongodb";
 import { NextApiResponse, NextApiRequest } from "next";
 import { customAlphabet } from "nanoid";
-import validateUrl from "./utils/urlValidate";
+import { urlValidate } from "../../util/validate";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const client = await clientPromise;
-  const db = client.db("URLDATA").collection("shortenUrl");
-
   const defaultUrl = req.body.url;
-  const alphabett = "abcdefghijklmnopqrstuvwxyz";
-  const urlId = customAlphabet(alphabett, 6);
-  const random = urlId();
+  try {
+    const ifTrue = await urlValidate.isValid({ url: defaultUrl });
+    if (ifTrue) {
+      const client = await clientPromise;
+      const db = client.db("URLDATA").collection("shortenUrl");
 
-  if (validateUrl(defaultUrl)) {
-    try {
+      const alphabets = "abcdefghijklmnopqrstuvwxyz";
+      const urlId = customAlphabet(alphabets, 6);
+      const random = urlId();
+
       const findUrl = await db.findOne({ defaultUrl });
       if (findUrl) {
         res.status(200).send(findUrl.shortUrl);
       } else {
-        const shortUrl = `${process.env.BASE}/${random}`;
-        const urlObject = {
-          uid: random,
-          defaultUrl,
-          shortUrl,
-        };
-        const insert = await db.insertOne(urlObject);
-        if (insert.acknowledged) {
-          res.send(shortUrl);
-        }else{
-          res.send("unable to shorten link");
+        const ifShort = await db.findOne({ shortUrl: defaultUrl });
+        if (ifShort) {
+          res.send(defaultUrl);
+        } else {
+          const shortUrl = `${process.env.BASE}/${random}`;
+          const urlObject = {
+            uid: random,
+            defaultUrl,
+            shortUrl,
+          };
+          await db.insertOne(urlObject);
+          res.status(200).send(shortUrl);
         }
       }
-    } catch (err) {
-      res.status(500).json(err);
+    } else {
+      throw { stausCode: 500, message: "Invalid Url" };
     }
-  } else {
-    res.status(500).json("Invalid url");
+  } catch (err) {
+    res.status(500).json(err);
   }
 }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { IoIosCopy } from "react-icons/io";
 import { ProgressBar } from "react-loader-spinner";
-import { urlValidate } from "../middleware/validate";
+import { urlValidate } from "../util/validate";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,8 +17,8 @@ export default function Home() {
     toast("✅ URL Copied !!");
   };
 
-  const handleSubmit = async () => {
-    await urlValidate
+  const handleSubmit = () => {
+    urlValidate
       .validate({ url })
       .then((res) => {
         setFetching(true);
@@ -114,7 +114,9 @@ export default function Home() {
                 {shortUrl} <IoIosCopy className="text-pink-600" />
               </div>
             ) : (
-              <div className="text-lg font-bold">Short URL will appear here</div>
+              <div className="text-lg font-bold">
+                Short URL will appear here
+              </div>
             )}
           </div>
         </div>
