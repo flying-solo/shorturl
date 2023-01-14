@@ -16,10 +16,8 @@ const Post = (props: { data: string }) => {
       router.push(response.data);
     })
     .catch((err) => {
-      if (err) {
         setError(true);
         setErrorMessage("No such URL found");
-      }
     });
 
   return (
