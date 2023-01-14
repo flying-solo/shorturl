@@ -16,8 +16,7 @@ crafted with <span style="color: #8b0000;">&hearts;</span> by <a hrefs="https://
 ## Project Goals :
 >I was studying about api's and connection and therefore implementation of theory is must.<br>Hence this is my first full stack project,<br>where i made myhands dirty with mongodb connection and api routes. </p>
 ## Preview :
-
-<img width="743" alt="Screenshot 2022-12-19 at 11 52 40 AM" src="https://user-images.githubusercontent.com/73738347/212018822-36019167-28b7-4f96-84bc-37bbd75a9506.png">
+<img width="743" alt="Screenshot 2022-12-19 at 11 52 40 AM" src="https://user-images.githubusercontent.com/73738347/212463363-bc735874-b3a1-49f0-ab79-347f86207163.png">
 
 ## Wanna try on your own ?
 install dependencies and spin up the dev server
